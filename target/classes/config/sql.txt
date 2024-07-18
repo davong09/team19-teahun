@@ -1,0 +1,175 @@
+-- sys에서 계정 생성
+create user market identified by 1234;
+grant connect, resource to market;
+grant unlimited tablespace to market;
+
+-- market에서 테이블 생성
+
+CREATE TABLE member (
+memberId   varchar(20)      NOT NULL,
+password   varchar(40)      NOT NULL,
+name   varchar(10)      NOT NULL,
+phone   varchar(15)      NOT NULL,
+email   varchar(20)      NOT NULL,
+gender   varchar(10)      NOT NULL
+);
+
+CREATE TABLE totalOrder (
+order_Id   INT      NOT NULL,
+memberId   varchar(20)      NOT NULL,
+total_price   INT      NOT NULL,
+order_date   DATE      NULL,
+order_name   VARCHAR(10)      NOT NULL,
+status   VARCHAR(20)      NULL,
+addr   VARCHAR(300)      NOT NULL,
+addrDetail   VARCHAR(100)      NOT NULL,
+phone   VARCHAR(15)      NOT NULL,
+itemCNT   INT      NULL,
+itemName   VARCHAR(15)      NULL,
+itemImg   VARCHAR(600)      NULL
+);
+
+CREATE TABLE basket (
+bano   int      NOT NULL,
+proId   int      NOT NULL,
+memberId   varchar(20)      NOT NULL,
+cnt   int      NOT NULL
+);
+
+CREATE TABLE product (
+proId   int      NOT NULL,
+categoryKey_ID   int      NOT NULL,
+name   varchar(50)      NOT NULL,
+img1   varchar(600)      NULL,
+img2   varchar(600)      NULL,
+img3   varchar(600)      NULL,
+img4   varchar(600)      NULL,
+img5   varchar(600)      NULL,
+content   varchar(200)      NOT NULL,
+price   int      NOT NULL
+);
+
+CREATE TABLE prod_img (
+       img_id NUMBER,
+       proId int not null,
+       img_path VARCHAR2(500),
+       file_name VARCHAR2(500),
+       is_main NUMBER(1) DEFAULT 0,
+       constraint pk_prod_img primary key(img_id),
+       constraint fk_proId FOREIGN KEY (proId) REFERENCES product (proId)
+);
+
+CREATE TABLE category (
+categoryKey_ID   int      NOT NULL,
+categoryKey_num   INT      NULL,
+name   VARCHAR(30)      NOT NULL
+);
+
+ALTER TABLE member ADD CONSTRAINT PK_MEMBER PRIMARY KEY (
+memberId
+);
+
+ALTER TABLE totalOrder ADD CONSTRAINT PK_TOTALORDER PRIMARY KEY (
+order_Id
+);
+
+ALTER TABLE basket ADD CONSTRAINT PK_BASKET PRIMARY KEY (
+bano
+);
+
+ALTER TABLE product ADD CONSTRAINT PK_PRODUCT PRIMARY KEY (
+proId
+);
+
+ALTER TABLE category ADD CONSTRAINT PK_CATEGORY PRIMARY KEY (
+categoryKey_ID
+);
+
+-- Member 테이블 시퀀스
+CREATE SEQUENCE member_seq
+START WITH 1
+INCREMENT BY 1;
+
+-- TotalOrder 테이블 시퀀스
+CREATE SEQUENCE totalOrder_seq
+START WITH 1
+INCREMENT BY 1;
+
+-- Basket 테이블 시퀀스
+CREATE SEQUENCE basket_seq
+START WITH 1
+INCREMENT BY 1;
+
+-- Product 테이블 시퀀스
+CREATE SEQUENCE product_seq
+START WITH 1
+INCREMENT BY 1;
+
+-- proIMG
+CREATE SEQUENCE seq_img
+   START WITH 1
+   INCREMENT BY 1
+   NOCACHE
+   NOCYCLE;
+
+-- Category 테이블 시퀀스
+CREATE SEQUENCE category_seq
+START WITH 1
+INCREMENT BY 1;
+
+INSERT INTO member (memberId, password, name, phone, email, gender)
+VALUES ('member1', 'password1', '김철수', '010-1111-1111', 'chulsoo@example.com', 'male');
+INSERT INTO member (memberId, password, name, phone, email, gender)
+VALUES ('member2', 'password2', '이영희', '010-2222-2222', 'younghee@example.com', 'female');
+INSERT INTO member (memberId, password, name, phone, email, gender)
+VALUES ('member3', 'password3', '박민수', '010-3333-3333', 'minsoo@example.com', 'male');
+
+-- 정육 (카테고리ID 3번)
+INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
+VALUES (8, 3, '국내산 소고기 안심 200g', '소고기1.jpg', '소고기2.jpg', '소고기3.jpg', '소고기4.jpg', '소고기5.jpg', '부드러운 식감과 담백한 맛의 국내산 소고기 안심입니다. 구이, 스테이크 등으로 즐기기 좋습니다.', 15000);
+
+INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
+VALUES (9, 3, '국내산 돼지고기 목심 300g', '돼지고기1.jpg', '돼지고기2.jpg', '돼지고기3.jpg', '돼지고기4.jpg', '돼지고기5.jpg', '육즙이 풍부한 국내산 돼지고기 목심입니다. 구이, 찜, 조림 등 다양한 요리에 활용할 수 있습니다.', 12000);
+
+INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
+VALUES (10, 3, '국내산 닭가슴살 500g', '닭가슴살1.jpg', '닭가슴살2.jpg', '닭가슴살3.jpg', '닭가슴살4.jpg', '닭가슴살5.jpg', '저지방, 고단백의 국내산 닭가슴살입니다. 다이어트 식단이나 다양한 요리에 활용하기 좋습니다.', 8000);
+
+INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
+VALUES (11, 3, '국내산 오리훈제 300g', '오리고기1.jpg', '오리고기2.jpg', '오리고기3.jpg', '오리고기4.jpg', '오리고기5.jpg', '담백하면서도 풍미 있는 국내산 오리 훈제고기입니다. 간식이나 안주로 즐기기 좋습니다.', 14000);
+
+INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
+VALUES (12, 1, '브로콜리 1개', '브로콜리1.jpg', '브로콜리2.jpg', '브로콜리3.jpg', '브로콜리4.jpg', '브로콜리5.jpg', '건강하게 즐기는 국내산 브로콜리 우리 땅에서 자란 싱그러운 푸른빛의 건강한 브로콜리를 만나보세요', 1500);
+
+commit;
+
+ALTER TABLE product MODIFY (content VARCHAR2(600 BYTE));
+        
+CREATE TABLE BOOK_MEMBER(
+  memberId VARCHAR2(50),
+  memberPw VARCHAR2(100) NOT NULL,
+  memberName VARCHAR2(30) NOT NULL,
+  memberMail VARCHAR2(100) NOT NULL,
+  memberAddr1 VARCHAR2(100) NOT NULL,
+  memberAddr2 VARCHAR2(100) NOT NULL,
+  memberAddr3 VARCHAR2(100) NOT NULL,
+  adminCk NUMBER NOT NULL,
+  regDate DATE NOT NULL,
+  money number NOT NULL,
+  point number NOT NULL,
+  PRIMARY KEY(memberId)
+);
+commit;
+
+insert into book_member values('admin23', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 1, sysdate, 1000000, 1000000);
+
+SELECT * FROM book_member;
+
+ UPDATE book_member SET adminck = 1 where memberid = 'java';
+ 
+ -- 국가 테이블 생성
+create table vam_nation(
+   nationId varchar2(2) primary key,
+    nationName varchar2(50)
+);
+commit;
+        

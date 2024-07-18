@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.javalab.board.mapper.AdminMapper">
+
+	<!-- 이미지 추가 관련 -->
+	<!-- [상품 저장]
+    - selectKey: insert문을 실행하기 전에 selectKey를 실행하여 productId를 먼저 조회한다.
+    - keyProperty: 조회한 productId를 ProductVo의 productId에 저장한다.
+    - resultType: 조회한 productId의 타입을 지정한다.
+    - order: selectKey를 실행하는 시점을 지정한다. BEFORE는 insert문을 실행하기 전에 selectKey를 실행한다.-->
+ 	<insert id="insertProduct" parameterType="ProductVo">
+        <selectKey keyProperty="proId" resultType="int" order="BEFORE">
+            SELECT product_seq.NEXTVAL FROM dual
+        </selectKey>
+        INSERT INTO product (proId, categoryKey_ID, name, content, price)
+        VALUES (#{proId}, #{categoryKey_ID}, #{name}, #{content}, #{price})
+    </insert>
+
+	<!-- 한 상품의 여러 이미지조회 -->
+	<select id="getProductWithAllImages" parameterType="int" 
+        								resultMap="ProductWithImageMap">
+	    SELECT p.proId AS proId, p.name, p.content, 
+	           p.price AS price, 
+	           pi.img_id AS imgId, pi.img_path AS imgPath, pi.file_name AS fileName, pi.is_main AS isMain
+	    FROM product p
+	    LEFT JOIN prod_img pi ON p.proId = pi.proId
+	    WHERE p.proId = #{proId}
+	    ORDER BY pi.img_id
+	</select>
+	
+	<!-- 한 상품과 여러 이미지를 담기 위한 구조체 
+		id : ProductWithImageMap 에서 key(pk)
+		property : ProductWithImageVo 속성
+		column : select문에 있는 컬러명
+		-->
+	<resultMap id="ProductWithImageMap" type="ProductWithImageVo">
+	    <id property="proId" column="proId" /> <!-- PK -->
+	    <result property="name" column="name" />
+	    <result property="content" column="content" />
+	    <result property="price" column="price" />
+	    <!-- ProductWithImageVo의 속성중에서 imgList에 담을 형태를 만듦  -->
+	    <collection property="imgList" ofType="ImgVo">
+	        <id property="imgId" column="imgId" />
+	        <result property="proId" column="proId" />
+	        <result property="imgPath" column="imgPath" />
+	        <result property="fileName" column="fileName" />
+	        <result property="isMain" column="isMain" />
+	    </collection>
+	</resultMap>
+	
+	<!-- 이미지 여러장 저장
+		 collection="list" 작업 자료의 형태
+		 item="image" : 임시변수로 ImgVo 객체 하나 담는 역할
+		 #{image.productId} : 위의 임시 변수에서 poductId라는 속성값 조회
+		 separator="UNION ALL" : 여러 개의 쿼리문을 연결해주는 역할
+		 A.* : from절의 A alias(별칭)
+	-->
+	<insert id="insertImages" parameterType="java.util.List">
+	    INSERT INTO prod_img (img_id, proId, img_path, file_name, is_main)
+	    SELECT seq_img.NEXTVAL, A.* FROM (
+	        <foreach collection="list" item="image" separator="UNION ALL">
+	            SELECT #{image.proId} as proId,
+	                   #{image.imgPath} as img_path,
+	                   #{image.fileName} as file_name,
+	                   #{image.isMain} as is_main
+	            FROM DUAL
+	        </foreach>
+	    ) A
+	</insert>
+
+    <select id="getAllProduct" resultType="ProductWithImageVo">
+        SELECT p.proId AS proId, p.name, p.content, 
+        	   p.price AS price, 
+               pi.img_path AS imgPath, pi.file_name AS fileName
+        FROM product p
+        LEFT JOIN prod_img pi ON p.proId = pi.proId AND pi.is_main = 1
+        ORDER BY p.proId
+    </select>
+    
+    
+  	<!-- 상품 등록 -->
+  	<insert id="productEnroll" parameterType="ProductVo">
+  	
+  		insert into product(proId, categoryKey_ID, name, img1, img2, img3, img4, img5, content, price, Discount)
+		values(#{proId},#{categoryKey_ID}, #{name},#{img1},#{img2},#{img3},#{img4},#{img5},#{content},#{price},#{Discount})
+
+  	</insert>
+
+  	<select id="getProduct" resultType="ProductVo">
+        select proId, categoryKey_ID, name, img1, img2, img3, img4, img5, content, price, discount 
+        from product 
+        where proId = #{proId}
+    </select>	
+    
+    <!--  상품 목록 조회 쿼리 메소드  -->
+    <select id="listProduct" resultType="ProductVo">
+        select proId, categoryKey_ID, name, img1, img2, img3, img4, img5, content, price, discount 
+        from product 
+        order by price asc
+    </select>
+    
+    <!--  상품 수정 메소드  -->
+    <update id="updateProduct" parameterType="ProductVo">
+        UPDATE product 
+        SET categoryKey_ID = #{categoryKey_ID}, name = #{name}, img1 = #{img1}, img2 = #{img2}, img3 = #{img3}, img4 = #{img4}, img5 = #{img5}, content = #{content}, price = #{price}, discount = #{discount} 
+        WHERE proId = #{proId}
+    </update>
+
+    <!--  상품 삭제 메소드  -->
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM product WHERE proId = #{proId}
+    </delete>
+    
+
+  </mapper>
