@@ -5,6 +5,9 @@ grant unlimited tablespace to market;
 
 -- market에서 테이블 생성
 
+
+-- market에서 테이블 생성
+
 CREATE TABLE member (
 memberId   varchar(20)      NOT NULL,
 password   varchar(40)      NOT NULL,
@@ -13,6 +16,7 @@ phone   varchar(15)      NOT NULL,
 email   varchar(20)      NOT NULL,
 gender   varchar(10)      NOT NULL
 );
+ALTER TABLE product MODIFY (content VARCHAR2(600 BYTE));
 
 CREATE TABLE totalOrder (
 order_Id   INT      NOT NULL,
@@ -124,25 +128,9 @@ VALUES ('member2', 'password2', '이영희', '010-2222-2222', 'younghee@example.
 INSERT INTO member (memberId, password, name, phone, email, gender)
 VALUES ('member3', 'password3', '박민수', '010-3333-3333', 'minsoo@example.com', 'male');
 
--- 정육 (카테고리ID 3번)
-INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
-VALUES (8, 3, '국내산 소고기 안심 200g', '소고기1.jpg', '소고기2.jpg', '소고기3.jpg', '소고기4.jpg', '소고기5.jpg', '부드러운 식감과 담백한 맛의 국내산 소고기 안심입니다. 구이, 스테이크 등으로 즐기기 좋습니다.', 15000);
-
-INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
-VALUES (9, 3, '국내산 돼지고기 목심 300g', '돼지고기1.jpg', '돼지고기2.jpg', '돼지고기3.jpg', '돼지고기4.jpg', '돼지고기5.jpg', '육즙이 풍부한 국내산 돼지고기 목심입니다. 구이, 찜, 조림 등 다양한 요리에 활용할 수 있습니다.', 12000);
-
-INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
-VALUES (10, 3, '국내산 닭가슴살 500g', '닭가슴살1.jpg', '닭가슴살2.jpg', '닭가슴살3.jpg', '닭가슴살4.jpg', '닭가슴살5.jpg', '저지방, 고단백의 국내산 닭가슴살입니다. 다이어트 식단이나 다양한 요리에 활용하기 좋습니다.', 8000);
-
-INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
-VALUES (11, 3, '국내산 오리훈제 300g', '오리고기1.jpg', '오리고기2.jpg', '오리고기3.jpg', '오리고기4.jpg', '오리고기5.jpg', '담백하면서도 풍미 있는 국내산 오리 훈제고기입니다. 간식이나 안주로 즐기기 좋습니다.', 14000);
-
-INSERT INTO PRODUCT (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE)
-VALUES (12, 1, '브로콜리 1개', '브로콜리1.jpg', '브로콜리2.jpg', '브로콜리3.jpg', '브로콜리4.jpg', '브로콜리5.jpg', '건강하게 즐기는 국내산 브로콜리 우리 땅에서 자란 싱그러운 푸른빛의 건강한 브로콜리를 만나보세요', 1500);
-
 commit;
 
-ALTER TABLE product MODIFY (content VARCHAR2(600 BYTE));
+
         
 CREATE TABLE BOOK_MEMBER(
   memberId VARCHAR2(50),
@@ -173,14 +161,14 @@ create table vam_nation(
 );
 
 
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (52, '3', '국내산 돼지고기 목심 300g', '', '', '', '', '', '육즙이 풍부한 국내산 돼지고기 목심입니다. 구이, 찜, 조림 등 다양한 요리에 활용할 수 있습니다.', '12000);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (53, '3', '국내산 오리훈제 300g', '', '', '', '', '', '담백하면서도 풍미 있는 국내산 오리 훈제고기입니다. 간식이나 안주로 즐기기 좋습니다.', '14000);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (54, '1', '청경채 300g', '', '', '', '', '', '아삭한 식감과 담백한 맛의 청경채입니다. 샐러드, 볶음, 국물요리까지 다양하게 활용할 수 있습니다.', '1500);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (50, '2', '곰곰적상추 150g', '', '', '', '', '', '씹을수록 고소한 국내산 적상추 쌉쌀한 맛이 매려적인 적상추로 다양한 요리에 활용해보세요', '2000);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (51, '3', '국내산 소고기 안심 200g', '', '', '', '', '', '부드러운 식감과 담백한 맛의 국내산 소고기 안심입니다. 구이, 스테이크 등으로 즐기기 좋습니다.', '15000);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (55, '2', '제주 감귤 5입', '', '', '', '', '', '제주산 감귤은 상큼하고 달콤한 맛이 일품입니다. 간식으로 먹기 좋습니다.', '4000);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (56, '2', '브로콜리 1개', '', '', '', '', '', '건강하게 즐기는 국내산 브로콜리 우리 땅에서 자란 싱그러운 푸른빛의 건강한 브로콜리를 만나보세요', '1500);
-INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (57, '2', '거봉 포도 2송이', '', '', '', '', '', '알이 크고 씨가 적은 거봉 포도입니다. 달콤한 맛이 일품입니다.', '6000);
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (52, '3', '국내산 돼지고기 목심 300g', '', '', '', '', '', '육즙이 풍부한 국내산 돼지고기 목심입니다. 구이, 찜, 조림 등 다양한 요리에 활용할 수 있습니다.', '12000');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (53, '3', '국내산 오리훈제 300g', '', '', '', '', '', '담백하면서도 풍미 있는 국내산 오리 훈제고기입니다. 간식이나 안주로 즐기기 좋습니다.', '14000');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (54, '1', '청경채 300g', '', '', '', '', '', '아삭한 식감과 담백한 맛의 청경채입니다. 샐러드, 볶음, 국물요리까지 다양하게 활용할 수 있습니다.', '1500');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (50, '2', '곰곰적상추 150g', '', '', '', '', '', '씹을수록 고소한 국내산 적상추 쌉쌀한 맛이 매려적인 적상추로 다양한 요리에 활용해보세요', '2000');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (51, '3', '국내산 소고기 안심 200g', '', '', '', '', '', '부드러운 식감과 담백한 맛의 국내산 소고기 안심입니다. 구이, 스테이크 등으로 즐기기 좋습니다.', '15000');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (55, '2', '제주 감귤 5입', '', '', '', '', '', '제주산 감귤은 상큼하고 달콤한 맛이 일품입니다. 간식으로 먹기 좋습니다.', '4000');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (56, '2', '브로콜리 1개', '', '', '', '', '', '건강하게 즐기는 국내산 브로콜리 우리 땅에서 자란 싱그러운 푸른빛의 건강한 브로콜리를 만나보세요', '1500');
+INSERT INTO product (PROID, CATEGORYKEY_ID, NAME, IMG1, IMG2, IMG3, IMG4, IMG5, CONTENT, PRICE) VALUES (57, '2', '거봉 포도 2송이', '', '', '', '', '', '알이 크고 씨가 적은 거봉 포도입니다. 달콤한 맛이 일품입니다.', '6000');
 INSERT INTO prod_img (IMG_ID, PROID, IMG_PATH, FILE_NAME, IS_MAIN) VALUES (22, 52, '2024\07\19', '40f9a318-0b85-4eda-812a-398e1bff009c_돼지고기5.jpg', 1);
 INSERT INTO prod_img (IMG_ID, PROID, IMG_PATH, FILE_NAME, IS_MAIN) VALUES (23, 52, '2024\07\19', '2bd2fd4e-b7de-4fe0-a5d5-c33b93a5b933_돼지고기2.jpg', 0);
 INSERT INTO prod_img (IMG_ID, PROID, IMG_PATH, FILE_NAME, IS_MAIN) VALUES (24, 52, '2024\07\19', '551d37d9-e539-433c-9e29-47eca4451221_돼지고기3.jpg', 0);
