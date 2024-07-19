@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>productList.jsp</title>
+<title>Product Details</title>
 <style>
 body {
 	font-family: Arial, sans-serif;
@@ -94,8 +94,8 @@ th {
 }
 
 .product-images img {
-	max-width: 150px;
-	max-height: 150px;
+	max-width: 300px;
+	max-height: 300px;
 	margin-right: 10px;
 	border: 1px solid #ddd;
 	border-radius: 5px;
@@ -112,6 +112,18 @@ th {
 
 .product-images li {
 	margin: 10px;
+}
+
+.product-images .card {
+    margin-bottom: 15px;
+}
+
+.product-images .card img {
+    width: 100%;
+    height: auto;
+    max-width: 400px; /* 최대 너비를 설정 */
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
 
 .buttons a, .buttons form {
@@ -146,15 +158,12 @@ th {
 	background: #d83c0e;
 }
 </style>
-<%-- <link rel="stylesheet" type="text/css"
-	href="<c:url value='/resources/css/board.css' />?v=${now}" />
-</head> --%>
+</head>
 <body>
 	<div class="container">
-		<%-- 헤더부분 include 액션 태그 사용, c:url 사용금지, 경로 직접 지정해야함. --%>
 		<jsp:include page="/resources/common/mainheader.jsp" />
 		<main>
-			<table border="1">
+			<table>
 				<tr>
 					<th>상품명</th>
 					<td><c:out value="${productWithImageVo.name}" /></td>
@@ -163,40 +172,22 @@ th {
 					<th>가격</th>
 					<td><c:out value="${productWithImageVo.price}" /></td>
 				</tr>
-				<%-- <tr>
-					<th>카테고리</th>
-					<td><c:out value="${productVo.categoryKey_ID }" /></td>
-				</tr> --%>
 				<tr>
 					<th>상품 내용</th>
 					<td>${productWithImageVo.content}</td>
 				</tr>
 			</table>
 			<c:if test="${not empty productWithImageVo.imgList}">
-                <div class="row">
+                <div class="product-images">
                     <c:forEach var="image" items="${productWithImageVo.imgList}">
-                        <div class="col-md-3">
-                            <div class="card mb-3">
-                                <img src="${pageContext.request.contextPath}/resources/uploads/${image.imgPath}/${image.fileName}" class="card-img-top" alt="Image">
-                                <div class="card-body">
-                                    <p class="card-text">${image.fileName}</p>
-                                    <c:if test="${image.isMain == 1}">
-                                        <span class="badge badge-primary">대표 이미지</span>
-                                    </c:if>
-                                </div>
-                            </div>
+                        <div class="card">
+                            <img src="${contextPath}/resources/uploads/${image.imgPath}/${image.fileName}" alt="Image">
                         </div>
                     </c:forEach>
                 </div>
             </c:if>
-			</li> <br> <a href="<c:url value='/product/list'/>">목록</a>
-			<!-- 업데이트랑 삭제는 일단 보류 -->
-			<%-- <a href="<c:url value='/product/update'/>?proId=${productVo.proId}">수정</a>
-			<form action="<c:url value='/product/delete'/>" method="post"> 
-				<input type="hidden" name="proId" value="${productVo.proId}"> 
-				<input type="submit" value="삭제" onclick="return confirm('정말 삭제하시겠습니까?');">
-			</form>
-			--%>
+			<br> 
+			<a href="<c:url value='/product/list'/>">목록</a>
 		</main>
 	</div>
 </body>
